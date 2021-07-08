@@ -1,0 +1,26 @@
+#cloud-config
+package_update: true
+package_upgrade: false
+packages:
+  - tmux
+# hostname: play
+# fqdn: play.example.com
+users:
+  - name: ubuntu
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC4mWXkrwnP5lDU6ptfeLbNg8RSY/WiT9clhIyZIQu39dJHqfaSFNgPjvIkB/Qgo/0cnLkQunSsh4DEsjaDjjaf8BzPlVSCeqBXvst+fpLV+KdLofnMSOdKMUM/DnARszyU9FWu2d3LrG99ZGif1/Je3UHfNVn4TdaDfMH8Hwq/jSQqkfhd01MKsQQUYcrHUXDtceJxVIoBbhINfLWV4RUM02sy+AYvO/tl8ZhTEPoytsLChM6iH2fWKsFMMnZq451L7bGZHMG1R8NJ18h7LrDK+JXfRcavu4UqfOfxzBr0/bXE04MnXg+5zY6y62V/BmOHv0WKM+2DOoCsot39qZqVpicC7mqOzRXCZyiMvCI+Tqq+9HEuON5mUhplXMY0iEMbGdIS8xUoP0DnqutAsQLivMaZaw2gEk+ujUsq7WLXHZ7F+PflOPLSkgNdfw6FeeXazS992Cp43J1NjHdgYUJIIuOi3ireUj5fA2/hqJ2KcV8gjuIILh9fjoNLkxx/+ck= dev@DESKTOP-9UVGGM0
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDrbW2HyMX265mk3XBRg4RCLy1jIcSeqLaxFXz/QJ+VUTqJf5Gz2iPgzf6qf+oaqrTHWsgeAdgWuK6JsNRyc/5V8HWrvkp+nL0FgOljaKUfy6a+RnXLX3tmrko7SpF0cyGMqUD7kQJpy7hDT5cYXu645rwCRNmWj0q5i/jdBQnlp56H4tUCXKgd+IXbkgKg/if2nTq1Y/r8yL2MPDQkR5wJMgM9MTgSY2YiZZpU7ZY7Qdh/NaZAxj/Is6aDsNjoCUbmvsgfe9szaNgdLVyT2DGp6V0JW1XwVvvHBUvHsXMfe/+64T/jvisz4aybGSRhoKpgNj0AL4u/oLVH7VC4yWApR0w1ck8BAt40Ga3T9uAIU6Fcgj69GQuGUwXWetz4fvaVlZQIr5cpmYEQeOK/oQ7+MXZX1k0DlwmyEzcjtKVwySogd0YGOu8PCbTC2i/hq8ZMBjO9TIMVdQaA5KAOvhsb6LPyz+Y+C3/IKuxXqXFmhTslIIx8UdvloqrwEH/qk+k= dev@wsl
+chpasswd:
+  list: |
+    ubuntu:pa$$w0rd
+    root:toor
+  expire: False
+runcmd:
+  - sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+  - sed -i 's|[#]*PasswordAuthentication yes|PasswordAuthentication no|g' /etc/ssh/sshd_config
+  - sed -i 's|UsePAM yes|UsePAM no|g' /etc/ssh/sshd_config
+  - service ssh stop && service ssh start
+final_message: "The system is finally up, after $UPTIME seconds"
