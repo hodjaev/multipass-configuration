@@ -1,0 +1,5 @@
+[
+  { "name": "haproxy", "cpus": "1", "mem": "1G", "disk": "5G", "network": "external", "initFile": "cloud-init-3.yaml", "ip": "192.168.1.111" },
+  { "name": "worker1", "cpus": "1", "mem": "1G", "disk": "5G", "network": "external", "initFile": "cloud-init-3.yaml", "ip": "192.168.1.112" },
+  { "name": "worker2", "cpus": "1", "mem": "1G", "disk": "5G", "network": "external", "initFile": "cloud-init-3.yaml", "ip": "192.168.1.113" }
+]
